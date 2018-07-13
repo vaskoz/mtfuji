@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TokenPrioritizerTest {
@@ -18,11 +19,32 @@ public class TokenPrioritizerTest {
 
 		//Add the tokens to the prioritizer
 		var prioritizer = TokenPrioritizer.create();
-		prioritizer.addToken( firstToken );
-		prioritizer.addToken( secondToken );
+		prioritizer.addToken(firstToken);
+		prioritizer.addToken(secondToken);
 
 		//Confirm that we get the correct token back from the prioritizer
 		var returnedToken = prioritizer.nextToken();
-		assertTrue( returnedToken.getTokenID().equals( secondTokenID ) );
+		assertTrue(returnedToken.getTokenID().equals(secondTokenID));
+	}
+
+	@Test
+	public void moreSophisticatedTest() {
+		var prioritizer = TokenPrioritizer.create();
+		var fifth = new Token("vasko", 3);
+		var fourth = new Token("somebody else", 2);
+		var first = new Token("java", 1);
+		var second = new Token("interview", 1);
+		var third = new Token("three 1s", 1);
+		prioritizer.addToken(fourth);
+		prioritizer.addToken(first);
+		prioritizer.addToken(fifth);
+		prioritizer.addToken(second);
+		prioritizer.addToken(third);
+
+		assertEquals(first, prioritizer.nextToken());
+		assertEquals(second, prioritizer.nextToken());
+		assertEquals(third, prioritizer.nextToken());
+		assertEquals(fourth, prioritizer.nextToken());
+		assertEquals(fifth, prioritizer.nextToken());
 	}
 }

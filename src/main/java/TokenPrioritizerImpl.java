@@ -1,16 +1,47 @@
-class TokenPrioritizerImpl implements TokenPrioritizer
-{
+import java.util.Comparator;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicLong;
 
-	@Override
-	public Token nextToken()
-	{
-		throw new UnsupportedOperationException("IMPLEMENT ME!");
+class TokenPrioritizerImpl implements TokenPrioritizer {
+	private static final Comparator<OrderedToken> DEFAULT_COMPARATOR = Comparator.comparingInt(OrderedToken::getPriority)
+			.thenComparingLong(OrderedToken::getInsertionOrder);
+	private final PriorityBlockingQueue<OrderedToken> queue;
+	private final AtomicLong insertionOrder = new AtomicLong();
+
+	private static class OrderedToken {
+		private final Token token;
+		private final Long insertionOrder;
+
+		public OrderedToken(Token token, Long insertionOrder) {
+			this.token = token;
+			this.insertionOrder = insertionOrder;
+		}
+
+		public Token getToken() {
+			return token;
+		}
+
+		public Long getInsertionOrder() {
+			return insertionOrder;
+		}
+
+		public int getPriority() {
+			return this.token.getPriority();
+		}
+	}
+
+	TokenPrioritizerImpl() {
+		this.queue = new PriorityBlockingQueue<>(11, DEFAULT_COMPARATOR);
 	}
 
 	@Override
-	public void addToken( Token theToken )
-	{
-		throw new UnsupportedOperationException("IMPLEMENT ME!");
+	public Token nextToken() {
+		return this.queue.poll().getToken();
+	}
+
+	@Override
+	public void addToken(Token theToken) {
+		this.queue.add(new OrderedToken(theToken, this.insertionOrder.getAndIncrement()));
 	}
 }
 
