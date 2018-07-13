@@ -4,3 +4,24 @@
  * This is a general purpose Gradle build.
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.11
+
+repositories {
+	jcenter()
+}
+
+def junitVersion = "5.2.0"
+
+dependencies {
+	// JUnit Jupiter API and TestEngine implementation
+	testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+	testCompile("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
+}
+
+test {
+	useJUnitPlatform()
+}
