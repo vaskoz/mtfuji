@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -13,7 +14,7 @@ class TokenPrioritizerImpl implements TokenPrioritizer {
 		private final Long insertionOrder;
 
 		public OrderedToken(Token token, Long insertionOrder) {
-			this.token = token;
+			this.token = Objects.requireNonNull(token);
 			this.insertionOrder = insertionOrder;
 		}
 
@@ -36,7 +37,7 @@ class TokenPrioritizerImpl implements TokenPrioritizer {
 
 	@Override
 	public Token nextToken() {
-		return this.queue.poll().getToken();
+		return Objects.requireNonNull(this.queue.poll()).getToken();
 	}
 
 	@Override

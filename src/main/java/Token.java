@@ -3,33 +3,30 @@ import java.util.Objects;
 /**
  * A class representing a prioritized token
  */
-public class Token
-{
+public class Token {
 	private final String tokenID;
 	private final int priority;
 
-	public Token(String tokenID, int priority)
-	{
-		this.tokenID = tokenID;
+	public Token(String tokenID, int priority) {
+		this.tokenID = Objects.requireNonNullElse(tokenID, "");
 		this.priority = priority;
 	}
 
 	/**
-	 *
 	 * Get the unique identifier for this token (guaranteed to be unique across all tokens).
+	 *
 	 * @return the token ID
 	 */
-	public String getTokenID()
-	{
+	public String getTokenID() {
 		return tokenID;
 	}
 
 	/**
 	 * Get the priority. A lower integer number indicates a higher priority.
+	 *
 	 * @return the priority
 	 */
-	public int getPriority()
-	{
+	public int getPriority() {
 		return priority;
 	}
 
