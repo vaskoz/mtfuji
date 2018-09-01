@@ -6,11 +6,16 @@
  */
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.11
 
 repositories {
 	jcenter()
+}
+
+jacoco {
+    toolVersion = "0.8.2"
 }
 
 def junitVersion = "5.2.0"
